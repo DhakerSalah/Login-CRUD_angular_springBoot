@@ -1,0 +1,52 @@
+<h1>Welcome with D'S-Dev / Angular & Spring boot Application</h1>
+<div class="container" id="container">
+  <div class="overlay-container">
+    <form #registerform="ngForm" (ngSubmit)="RegisterUser()">
+      <h1>Sign up</h1>
+      <div class="form-group">
+          <label for="username">User Name:</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" [(ngModel)]="user.username" 
+          required  #username="ngModel" [class.is-invalid]="username.invalid && username.touched">
+          <small class="text-danger" [class.d-none]="username.valid || username.untouched">Username is required field</small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" [(ngModel)]="user.email" 
+        required pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
+        <div *ngIf="email.errors && (email.invalid && email.touched)">
+            <small class="text-danger" *ngIf="email.errors.required">Email is required field</small>
+            <small class="text-danger" *ngIf="email.errors.pattern">Enter a valid Email</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" [(ngModel)]="user.password"
+        required #password="ngModel" [class.is-invalid]="password.invalid && password.touched">
+        <small class="text-danger" [class.d-none]="password.valid || password.untouched">Password is required field</small>
+      </div>
+      <div class="form-group">
+        <label for="Cpwd">Confirm Password:</label>
+        <input type="password" class="form-control" id="Cpwd" placeholder="Enter Confirm Password" name="cpassword" (ngModel)="user.password"
+        required #cpassword="ngModel" [class.is-invalid]="cpassword.invalid && cpassword.touched">
+        <small class="text-danger" [class.d-none]="(cpassword.value==password.value) || cpassword.untouched">Password and Confirm Password must be same</small>
+      </div>
+      <button [disabled]="registerform.form.invalid || cpassword.value!=password.value" type="submit" class="btn btn-primary">Register</button>
+    </form>
+	</div>
+
+	<div class="form-container sign-in-container">
+    <div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start journey with us</p>
+        <p>Existing user ? Login here</p>
+				<button class="ghost" id="signUp" [routerLink]="['/login']">Sign in</button>
+			</div>
+		</div>
+  </div>
+</div>

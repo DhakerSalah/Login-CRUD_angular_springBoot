@@ -1,0 +1,31 @@
+<div class="col-md-6 offset-md-3">
+    <h3>Create Employee</h3>
+    <form #addEmpForm="ngForm" (ngSubmit) = "onSubmit()">
+        <div class="form-group">
+            <label for="firstname">First Name :</label>
+            <input type="text" class="form-control" id="firstname" [(ngModel)]="employee.firstname" name="firstname"
+            #first="ngModel" [class.is-invalid]="first.invalid && first.touched" required>
+            <small class="text-danger" [class.d-none]="first.valid || first.untouched">First name is required field</small>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="lastname">Last Name :</label>
+            <input type="text" class="form-control" id="lastname" [(ngModel)]="employee.lastname" name="lastname"
+            #last="ngModel" [class.is-invalid]="last.invalid && last.touched" required>
+            <small class="text-danger" [class.d-none]="last.valid || last.untouched">Last name is required field</small>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="email">Email address :</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="employee.email" name="email"
+            required pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" #email="ngModel" [class.is-invalid]="email.invalid && email.touched">
+            <div *ngIf="email.errors && (email.invalid && email.touched)">
+                <small class="text-danger" *ngIf="email.errors.required">Email is required field</small>
+                <small class="text-danger" *ngIf="email.errors.pattern">Enter a valid Email</small>
+            </div>
+        </div>
+        <br>
+    
+        <button class="btn btn-success" [disabled]="addEmpForm.form.invalid" type="submit">Add employee</button>
+    </form>
+</div>

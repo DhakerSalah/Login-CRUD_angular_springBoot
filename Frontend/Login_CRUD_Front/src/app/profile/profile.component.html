@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Profile</h1>
+
+
+      <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <a href="#show_info" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse">
+            <h6 class="m-0 font-weight-bold text-primary">Show profile</h6>
+            </a>
+          <div class="collapse show" id="show_info">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <img src="images/admins/<?php echo $admin['image']?>" alt="" style="width: 100%">
+                </div>
+                <div class="col-lg-6">
+                  <p><b>Identificator :</b> {{user_session.id}}</p>
+                  <p><b>Username :</b> {{user_session.username}}</p>
+                  <p><b>Email :</b> {{user_session.email}}</p>
+                  <p><b>Password :</b> {{user_session.password}}</p>
+                  <a (click)="goToUpdate()" id="scrolls"><button class="btn btn-outline-primary">Edit profile <i class="fas fa-edit"></i></button></a>
+                </div>
+              </div>
+              
+          </div>
+        </div>
+      </div>
+
+
+
+
+    <div class="row" id="edits">
+
+      <div class="col-lg-6">
+
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <a href="#edit_info" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse">
+            <h6 class="m-0 font-weight-bold text-primary">Edit Informations</h6>
+            </a>
+          <div class="collapse show" id="edit_info">
+            <div class="card-body">
+              <form class="user" #infoform="ngForm" (ngSubmit) = "onSubmitInfo()">
+                <div class="form-group">
+                  <label for="exampleInputUsername">Username :</label>
+                  <input type="text" class="form-control form-control-user" id="exampleInputUsername" name="username" [(ngModel)]="user_session.username"
+                  #username="ngModel" [class.is-invalid]="username.invalid && username.touched" required>
+                  <small class="text-danger" [class.d-none]="username.valid || username.untouched">Username is required field</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail">Email :</label>
+                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" [(ngModel)]="user_session.email"
+                  pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" #email="ngModel" [class.is-invalid]="email.invalid && email.touched" required>
+                  <div *ngIf="email.errors && (email.invalid && email.touched)">
+                    <small class="text-danger" *ngIf="email.errors.required">Email is required field</small>
+                    <small class="text-danger" *ngIf="email.errors.pattern">Enter a valid Email</small>
+                </div>
+                <!--<div class="form-group">
+                  <label for="exampleInputPass">Password :</label>
+                  <input type="password" name="password" class="form-control form-control-user" id="exampleInputPass"
+                   required [(ngModel)]="user_session.password" #password="ngModel" [class.is-invalid]="password.invalid && password.touched">
+                   <small class="text-danger" [class.d-none]="password.valid || password.untouched">Password is required field</small>
+                </div>-->
+                </div>
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input" id="infoCheck">
+                    <label class="custom-control-label" for="infoCheck">Confirm your update</label>
+                  </div>
+                </div>
+                <input type="submit" [disabled]="infoform.form.invalid" class="btn btn-primary btn-user btn-block" value="Update profile">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <a href="#edit_pass" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapse">
+            <h6 class="m-0 font-weight-bold text-primary">Edit password</h6>
+            </a>
+          <div class="collapse show" id="edit_pass">
+            <div class="card-body">
+              <form class="user" #passwordform="ngForm" (ngSubmit) = "onSubmitPass()">
+                <div class="form-group">
+                  <input type="hidden" name="password" class="form-control form-control-user" id="exampleInputp" required 
+                  [(ngModel)]="user_session.password" #password="ngModel" [class.is-invalid]="password.invalid && password.touched">
+                   <small class="text-danger" [class.d-none]="password.valid || password.untouched">Password is required field</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputOld">Old password :</label>
+                  <input type="password" name="old_password" class="form-control form-control-user" id="exampleInputOld" placeholder="Enter old password..."
+                   required (ngModel)="user_session.password" #old_password="ngModel" [class.is-invalid]="old_password.invalid && old_password.touched">
+                   <small class="text-danger" [class.d-none]="old_password.valid || old_password.untouched">Password is required field. </small>
+                   <small class="text-danger" [class.d-none]="old_password.value==password.value">Enter your actuel password</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputNew">New password :</label>
+                  <input type="password" name="npassword" class="form-control form-control-user" id="exampleInputNew" placeholder="Enter new password..."
+                  [(ngModel)]="user.password" required #npassword="ngModel" [class.is-invalid]="npassword.invalid && npassword.touched">
+                  <small class="text-danger" [class.d-none]="npassword.valid || npassword.untouched">New password is required field</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputConfirm">Confirm new password :</label>
+                  <input type="password" name="cpassword" class="form-control form-control-user" id="exampleInputConfirm" placeholder="Confirm new password..."
+                  (ngModel)="user.password" required #cpassword="ngModel" [class.is-invalid]="cpassword.invalid && cpassword.touched">
+                  <small class="text-danger" [class.d-none]="(cpassword.value==npassword.value) || cpassword.untouched">New password and confirm password must be same</small>
+                </div>
+                <div class="form-group">
+                  <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input" id="passCheck">
+                    <label class="custom-control-label" for="passCheck">Confirm your update</label>
+                  </div>
+                </div>
+                <input type="submit" [disabled]="passwordform.form.invalid || cpassword.value!=npassword.value || old_password.value!=password.value" class="btn btn-primary btn-user btn-block" value="Update password">
+              </form>
+              
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+</div>
